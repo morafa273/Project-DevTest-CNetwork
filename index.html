@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        body{
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: aut;
+            background-color: cornflowerblue;
+            color: rgb(70, 68, 61);
+            
+        }
+    </style>
+    <title>Tukar Pecahan Uang</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="display-4 text-center mb-3">
+                     Tukar Pecahan Uang
+                </h1>
+                <form>
+                    <div class="form-group">
+                        <input type="number" id="inputUang" type="string" class="form-control form-control-lg" placeholder="Total Dibutuhkan...">
+        
+                        <input type="number" id="inputP20rb" type="string" class="form-control form-control-lg" placeholder="Stok Pecahan 20 rb..."> 
+                        
+                        <input type="number" id="inputP50rb" type="string" class="form-control form-control-lg" placeholder="Stok Pecahan 50 rb..."> 
+                        
+                        <input type="number" id="inputP100rb" type="string" class="form-control form-control-lg" placeholder="Stok Pecahan 100 rb..."> 
+                        
+                        <input type="button" value="Hitung" class="form-control form-control-lg" onclick="hitung()">
+                    </div>
+                </form>
+                <div id="output">
+                    <div class="card">
+                        <div class="card-block ">
+                            <h4>Hasil :</h4>
+                            <div id="hasil"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block ">
+                            <h4>Sisa :</h4>
+                            <div id="sisa"></div>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+       function hitung(){
+           var inputU = document.getElementById('inputUang').value   //uang yang diinputkan
+           var inp20 = document.getElementById('inputP20rb').value  //jumlah uang 20rb
+           var inp50 = document.getElementById('inputP50rb').value //jumlah uang 50rb
+           var inp100 = document.getElementById('inputP100rb').value //jumlah uang 100rb
+
+           var sisa = document.getElementById('sisa')
+           var sisa2 = 0;
+           var sisa3 = 0;
+           var sisa4 = 0;
+           var hasil = document.getElementById('hasil')
+
+           var sr = 100000
+           var lr = 50000
+           var dr = 20000
+
+           if(inputU<dr || (inp20<=0 && inp50<=0 && inp100<=0)){
+               sisa.innerHTML = 0
+           }else if(inputU>=dr && inputU<lr){
+               while(dr*inp20>inputU){
+                   inp20--;
+               }
+               sisa.innerHTML = inputU-(inp20*dr)
+               hasil.innerHTML = inp20 + ' Pecahan 20 rb'
+           }else if(inputU>=lr && inputU<sr && inp50<=0){
+                while(dr*inp20>inputU){
+                   inp20--;
+               }
+               sisa.innerHTML = inputU-(inp20*dr)
+               hasil.innerHTML = inp20 + ' Pecahan 20 rb'   
+           }else if(inputU>=lr && inputU<sr && inp50>0){
+               while(inp50*lr>inputU){
+                   inp50--;
+               }
+               sisa2 = inputU-(inp50*lr)
+               if(sisa2>=dr){
+                    while(dr*inp20>sisa2){
+                        inp20--;
+                    }
+                    if(inp20<=0){
+                        sisa.innerHTML = sisa2-(inp20*dr)
+                        hasil.innerHTML = inp50 + ' Pecahan 50 rb'
+                    }else{
+                        sisa.innerHTML = sisa2-(inp20*dr)
+                        hasil.innerHTML = inp50 + ' Pecahan 50 rb, ' + inp20.toString() + ' Pecahan 20 rb'
+                    }
+               }else{
+                    hasil.innerHTML = inp50 + ' Pecahan 50 rb'
+               }
+           }else if(inputU==sr){
+                inp100 = inputU/sr
+                sisa2 = inputU - sr
+                hasil.innerHTML = inp100 + ' Pecahan 100rb'
+                sisa.innerHTML = sisa2
+            }else if(inputU>sr){
+                while(inputU<inp100*sr){
+                    inp100--;
+                }
+                sisa2 = inputU - (inp100*sr)
+                if(sisa2>lr && inp50>0){
+                    while(sisa2<inp50*lr){
+                    inp50--;
+                }
+                sisa3 = sisa2 - (inp50*lr)
+                hasil.innerHTML = inp100 + ' Pecahan 100rb, ' + inp50.toString() + ' Pecahan 50rb'
+                sisa.innerHTML = sisa3
+                if(sisa3>dr && inp20>0){
+                    while(sisa3<inp20*dr){
+                    inp20--;
+                }
+                sisa4 = sisa3 - (inp20*dr)
+                hasil.innerHTML = inp100 + ' Pecahan 100rb, ' + inp50.toString() + ' Pecahan 50rb, ' + inp20.toString() + ' Pecahan 20rb'
+                sisa.innerHTML = sisa4
+                }else{
+                    hasil.innerHTML = inp100 + ' Pecahan 100rb, ' + inp50.toString() + ' Pecahan 50rb'
+                    sisa.innerHTML = sisa3
+                }
+                }
+
+            }
+    }
+    </script>
+
+</body>
+</html>
